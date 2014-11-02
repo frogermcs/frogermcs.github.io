@@ -7,10 +7,10 @@ Almost every Android developer knows sad true - Dalvik, Android's virtual machin
 
 What does it meat (for those who haven't faced with this limit, yet)? I short, if your application contains more methods and you invoke one of these which are placed after 65536 position your appllication will crash with error:
 
-```sh
+{% highlight shell %}
 Unable to execute dex: method ID not in [0, 0xffff]: 65536
 Conversion to Dalvik format failed: Unable to execute dex: method ID not in [0, 0xffff]: 65536
-```
+{% endhighlight %}
 
 In great article: "[DEX Sky’s the limit? No, 65K methods is]" you can find more details and explanations about this proble.
 
@@ -35,7 +35,7 @@ Ok then, let's create simple project in Android Studio with Blank Activity and [
 
 Now I'll to add my favorite libraries. Here you have whole dependencies list from our `<project>/app/build.gradle`:
 
-```
+{% highlight shell %}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -68,7 +68,7 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.facebook.rebound:rebound:0.3.6'
 }
-```
+{% endhighlight %}
 
 What do we have here? In short: 
 - Play Services and support libraries 
@@ -84,23 +84,23 @@ Here you have [commit] with all dependencies. And also [another one] with facebo
 Great, now let's start counting all used methods (yeah, that's right, 64k limit includes also methods from all dependencies used in project).
 
 First of all build/run project (we have to generate .apk or/and .dex files. You can do this by clicking ▶️ in Android Studio or by running
-```sh
+{% highlight shell %}
 $ ./gradlew assembleDebug
-```
+{% endhighlight %}
 in project root directory.
 
 After that our .apk file should be placed in `<project>/app/builds/outputs/apk/app-debug.apk`.
 
 Now let's analyze it. For this I used [dex-method-counts] tool. After we download it we'll have to run two commands (copied from README):
-```sh
+{% highlight shell %}
 $ ./gradlew assemble
 $ ./dex-method-counts path/to/App.apk # or .zip or .dex or directory
-```
+{% endhighlight %}
 
 Results
 ---
 The result surprised me as well because I've just updated Google Play Services from 5 to 6 and... well, better see yourself:
-```
+{% highlight shell %}
 Read in 63897 method IDs.
 <root>: 63897
     android: 14275
@@ -140,13 +140,13 @@ Read in 63897 method IDs.
         log: 65
         
 Overall method count: 63897
-```
+{% endhighlight %}
 Yes, it's true. We haven't written any line of code yet but we've almost reached dex limit with our **63897** methods.
 
 Oh, I almost forgot. We haven't attached any Analytics library. So let's add **FlurryAnalytics**. And in case of fast datastore prototyping lets add **Parse SDK**. Just in case.
 
 Let's build it again and... 💥*boom*💥:
-```
+{% highlight shell %}
 UNEXPECTED TOP-LEVEL EXCEPTION:
 com.android.dex.DexIndexOverflowException: method ID not in [0, 0xffff]: 65536
 	at com.android.dx.merge.DexMerger$6.updateIndex(DexMerger.java:502)
@@ -159,16 +159,16 @@ com.android.dex.DexIndexOverflowException: method ID not in [0, 0xffff]: 65536
 	at com.android.dx.command.dexer.Main.run(Main.java:245)
 	at com.android.dx.command.dexer.Main.main(Main.java:214)
 	at com.android.dx.command.Main.main(Main.java:106)
-```
+{% endhighlight %}
 Yes, it happend. And we still haven't written any line of code.
 
 The cure
 ===
 Of course the most correct solution is **ProGuard**. But again - we're working on MVP version of our app and we don't have time to deal with:
-```
+{% highlight shell %}
 FATAL EXCEPTION: main
     java.lang.NoClassDefFoundError: (...)
-```
+{% endhighlight %}
 in almost every library which we have in our project.
 
 Fortunatelly, Google has another solution for us. We can split our project into more than one .dex files and load the at runtime. But until now this process wasn't too straightforward and clear (couple years ago Google published [article] about this).
@@ -183,7 +183,7 @@ Where using MultiDex is pretty simple it's some important things which we should
 First of all we have to configure build instructions to split our project into multiple dex files. 
 
 In `app/build.gradle` file we have to add:
-```groovy
+{% highlight groovy %}
 afterEvaluate {
     tasks.matching {
         it.name.startsWith('dex')
@@ -195,7 +195,7 @@ afterEvaluate {
         dx.additionalParameters += "--main-dex-list=$projectDir/<filename>".toString()
     }
 }
-```
+{% endhighlight %}
 
 We have two params:
 - `--multi-dex` enables splitting mechanism in build process
@@ -210,7 +210,7 @@ Now we have to merge it (load additional dex files) inside our app. At the begin
 After that we have three ways for loading .dex files in our app:
 
 * Declare MultiDexApplication class in AndroidManifest.xml file:
-```xml
+{% highlight xml %}
 <application
     android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
@@ -218,17 +218,17 @@ After that we have three ways for loading .dex files in our app:
     android:name="android.support.multidex.MultiDexApplication">
     ...
 </application>
-```
+{% endhighlight %}
 * Extend MultiDexApplication in our Application class (I picked this way):
-```java
+{% highlight java %}
 public class HelloMultiDexApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
     }
 }
-```
-```xml
+{% endhighlight %}
+{% highlight xml %}
 <application
     android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
@@ -236,10 +236,10 @@ public class HelloMultiDexApplication extends MultiDexApplication {
     android:name=".HelloMultiDexApplication">
     ...
 </application>
-```
+{% endhighlight %}
 
 * If we can't extend `MultiDexApplication` we can install multiple dex files manually by overriding `attachBaseContext(Context base)` method in our Application class:
-```
+{% highlight java %}
 public class HelloMultiDexApplication extends Application {
     @Override
     public void onCreate() {
@@ -252,28 +252,28 @@ public class HelloMultiDexApplication extends Application {
         MultiDex.install(this);
     }
 }
-```
+{% endhighlight %}
 
 In general this configuration should be sufficient. But after we build and run our project we get error:
-```
+{% highlight shell %}
 	UNEXPECTED TOP-LEVEL EXCEPTION:
 	com.android.dex.DexException: Library dex files are not supported in multi-dex mode
 		at com.android.dx.command.dexer.Main.runMultiDex(Main.java:337)
 		at com.android.dx.command.dexer.Main.run(Main.java:243)
 		at com.android.dx.command.dexer.Main.main(Main.java:214)
 		at com.android.dx.command.Main.main(Main.java:106)
-```
+{% endhighlight %}
 If you have any additional libraries in your project (in our example we have **Facebook SDK**) we have to be sure that we disabled pre-dexing on them. Unfortunatelly `--multi-dex` option is not complatible with pre-dexed libs.
 
 You can do this by adding:
-```groovy
+{% highlight groovy %}
 android {
 //  ...
     dexOptions {
         preDexLibraries = false
     }
 }
-```
+{% endhighlight %}
 inside your `app/build.gradle` file.
 
 Now after we build and run our project everything works as it should.
@@ -284,7 +284,7 @@ Here you have [3rd commit] with complete changes required for enabling MultiDex 
 It's good to keep in mind these important things:
 - Additional .dex files are loaded in `Application.attachBaseContext(Context)` method (by `MultiDex.install(Context)` invokation). It means, that before this moment we can't use classes from them. So i.e. we cannot declare static fields with types attached out of main .dex file. Otherwise we'll get `java.lang.NoClassDefFoundError`. 
 - The similar case is with methods in our application class. We have to be sure that that we don't want to access classes and methods loaded from secondary .dex files. But this isse is easy to workaround by moving all invokation to inner, anonymous class. Here you have how it could look like:
-```java
+{% highlight java %}
 public class HelloMultiDexApplication extends MultiDexApplication {
 
     @Override
@@ -298,7 +298,7 @@ public class HelloMultiDexApplication extends MultiDexApplication {
         }.run();
     }
 }
-```
+{% endhighlight %}
 Why it will work this way? In short, because ClassLoader looks for dependencies while class is initialized. So when we're looking for classes and methods inside `Runnable` class we have secondary .dex files loaded.
 
 Another way to deal with problems described above is `--main-dex-list` param described earlier. It points file with list of classes which we want to put in main .dex file.
@@ -306,7 +306,7 @@ Another way to deal with problems described above is `--main-dex-list` param des
 It's always good use this option in case of `--multi-dex` put `android.support.multidex` package do secondary .dex files and efficiently stop us from merging them. 
 
 Example of described file (named multidex.keep in example project):
-```
+{% highlight shell %}
 android/support/multidex/BuildConfig/class
 android/support/multidex/MultiDex$V14/class
 android/support/multidex/MultiDex$V19/class
@@ -317,7 +317,7 @@ android/support/multidex/MultiDexExtractor$1/class
 android/support/multidex/MultiDexExtractor/class
 android/support/multidex/ZipUtil$CentralDirectory/class
 android/support/multidex/ZipUtil/class
-```
+{% endhighlight %}
 
 ##Source code
 Ful source code of described example is available on Github [repository].
