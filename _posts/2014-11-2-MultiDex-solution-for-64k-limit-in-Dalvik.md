@@ -24,6 +24,7 @@ Yes, you do. Android grows very fast. Also from development side. Libraries evol
 To prove this problem I created small example project. 
 
 Let us suppose that we want to create MVP product of app with:
+
 * Simple REST (json) client
 * clean project structure and good programming practises (In case of our app has been successful and we don't want to create it from scratch after that)
 * some simple and fancy animations and modern UI elements
@@ -72,6 +73,7 @@ dependencies {
 {% endhighlight %}
 
 What do we have here? In short: 
+
 * Play Services and support libraries 
 * Dagger for dependency injection and clean project architecture
 * Some tools for fast and fun programming (Guava, Butterknife, Timber)
@@ -199,6 +201,7 @@ afterEvaluate {
 {% endhighlight %}
 
 We have two params:
+
 * `--multi-dex` enables splitting mechanism in build process
 * `--main-dex-list` (not required) - file with list of classes which have to be attached in main dex file.
 
@@ -283,6 +286,7 @@ Here you have [3rd commit] with complete changes required for enabling MultiDex 
 
 ###Possible problems
 It's good to keep in mind these important things:
+
 * Additional .dex files are loaded in `Application.attachBaseContext(Context)` method (by `MultiDex.install(Context)` invokation). It means, that before this moment we can't use classes from them. So i.e. we cannot declare static fields with types attached out of main .dex file. Otherwise we'll get `java.lang.NoClassDefFoundError`. 
 * The similar case is with methods in our application class. We have to be sure that that we don't want to access classes and methods loaded from secondary .dex files. But this isse is easy to workaround by moving all invokation to inner, anonymous class. Here you have how it could look like:
 {% highlight java %}
