@@ -7,7 +7,7 @@ Almost every Android developer knows sad true - Dalvik, Android's virtual machin
 
 What does it meat (for those who haven't faced with this limit, yet)? I short, if your application contains more methods and you invoke one of these which are placed after 65536 position your appllication will crash with error:
 
-{% highlight shell %}
+{% highlight bash %}
 Unable to execute dex: method ID not in [0, 0xffff]: 65536
 Conversion to Dalvik format failed: Unable to execute dex: method ID not in [0, 0xffff]: 65536
 {% endhighlight %}
@@ -35,7 +35,7 @@ Ok then, let's create simple project in Android Studio with Blank Activity and [
 
 Now I'll to add my favorite libraries. Here you have whole dependencies list from our `<project>/app/build.gradle`:
 
-{% highlight shell %}
+{% highlight bash %}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -84,7 +84,7 @@ Here you have [commit] with all dependencies. And also [another one] with facebo
 Great, now let's start counting all used methods (yeah, that's right, 64k limit includes also methods from all dependencies used in project).
 
 First of all build/run project (we have to generate .apk or/and .dex files. You can do this by clicking ▶️ in Android Studio or by running
-{% highlight shell %}
+{% highlight bash %}
 $ ./gradlew assembleDebug
 {% endhighlight %}
 in project root directory.
@@ -92,7 +92,7 @@ in project root directory.
 After that our .apk file should be placed in `<project>/app/builds/outputs/apk/app-debug.apk`.
 
 Now let's analyze it. For this I used [dex-method-counts] tool. After we download it we'll have to run two commands (copied from README):
-{% highlight shell %}
+{% highlight bash %}
 $ ./gradlew assemble
 $ ./dex-method-counts path/to/App.apk # or .zip or .dex or directory
 {% endhighlight %}
@@ -100,7 +100,7 @@ $ ./dex-method-counts path/to/App.apk # or .zip or .dex or directory
 Results
 ---
 The result surprised me as well because I've just updated Google Play Services from 5 to 6 and... well, better see yourself:
-{% highlight shell %}
+{% highlight bash %}
 Read in 63897 method IDs.
 <root>: 63897
     android: 14275
@@ -146,7 +146,7 @@ Yes, it's true. We haven't written any line of code yet but we've almost reached
 Oh, I almost forgot. We haven't attached any Analytics library. So let's add **FlurryAnalytics**. And in case of fast datastore prototyping lets add **Parse SDK**. Just in case.
 
 Let's build it again and... 💥*boom*💥:
-{% highlight shell %}
+{% highlight bash %}
 UNEXPECTED TOP-LEVEL EXCEPTION:
 com.android.dex.DexIndexOverflowException: method ID not in [0, 0xffff]: 65536
 	at com.android.dx.merge.DexMerger$6.updateIndex(DexMerger.java:502)
@@ -165,7 +165,7 @@ Yes, it happend. And we still haven't written any line of code.
 The cure
 ===
 Of course the most correct solution is **ProGuard**. But again - we're working on MVP version of our app and we don't have time to deal with:
-{% highlight shell %}
+{% highlight bash %}
 FATAL EXCEPTION: main
     java.lang.NoClassDefFoundError: (...)
 {% endhighlight %}
@@ -255,7 +255,7 @@ public class HelloMultiDexApplication extends Application {
 {% endhighlight %}
 
 In general this configuration should be sufficient. But after we build and run our project we get error:
-{% highlight shell %}
+{% highlight bash %}
 	UNEXPECTED TOP-LEVEL EXCEPTION:
 	com.android.dex.DexException: Library dex files are not supported in multi-dex mode
 		at com.android.dx.command.dexer.Main.runMultiDex(Main.java:337)
@@ -306,7 +306,7 @@ Another way to deal with problems described above is `--main-dex-list` param des
 It's always good use this option in case of `--multi-dex` put `android.support.multidex` package do secondary .dex files and efficiently stop us from merging them. 
 
 Example of described file (named multidex.keep in example project):
-{% highlight shell %}
+{% highlight bash %}
 android/support/multidex/BuildConfig/class
 android/support/multidex/MultiDex$V14/class
 android/support/multidex/MultiDex$V19/class
