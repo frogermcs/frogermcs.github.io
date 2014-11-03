@@ -1,6 +1,7 @@
 ---
 layout: post
 title: MultiDex solution for 64k limit in Dalvik.
+tags: [android, multidex, dalvik]
 ---
 
 Almost every Android developer knows sad true - Dalvik, Android's virtual machine used by applications and some system services has one major limit - single .dex file (bytecode interpreted by Dalvik VM) can have **only** 64k (exatly 65536) methods. 
