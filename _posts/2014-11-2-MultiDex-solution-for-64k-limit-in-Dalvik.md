@@ -322,14 +322,6 @@ android/support/multidex/ZipUtil/class
 ##Source code
 Ful source code of described example is available on Github [repository].
 
-License
----
-
-MIT
-
-
-**Free Software, Hell Yeah!**
-
 [DEX Sky’s the limit? No, 65K methods is]:https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71
 [#minSdkVersion="15"]:http://dannyroa.com/2013/10/17/why-its-time-to-support-only-android-4-0-and-above/
 [commit]:https://github.com/frogermcs/HelloMultidex/commit/a016ac4d3be532c77d4ae4572d758c1ae0c06311
