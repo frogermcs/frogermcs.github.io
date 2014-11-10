@@ -291,7 +291,7 @@ Ful source code of described example is available on Github [repository].
 [Rebound]:facebook.github.io/rebound/
 [Timber]:https://github.com/JakeWharton/timber
 [Hugo]:https://github.com/JakeWharton/hugo
-[complete bunch of images]:http://
+[complete bunch of images]:https://github.com/frogermcs/frogermcs.github.io/raw/master/files/2/resources.zip
 [AppCompat v21]:http://android-developers.blogspot.com/2014/10/appcompat-v21-material-design-for-pre.html
 [Material Theme Color Palette documentation]:http://developer.android.com/training/material/theme.html#ColorPalette
 [action button pattern]:http://www.google.com/design/spec/components/buttons.html#buttons-flat-raised-buttons
