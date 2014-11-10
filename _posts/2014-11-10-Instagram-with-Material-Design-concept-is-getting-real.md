@@ -6,6 +6,8 @@ tags: [android, material design, ui, animations, layout]
 
 A couple months ago, after Google presented Material Design - new design guidelines for mobile and web both, designer Emmanuel Pacamalan created concept video showing what Instagram for Android would look like after aplying Material Design rules:
 
+<!-- more -->
+
 <iframe width="560" height="315" src="//www.youtube.com/embed/ojwdmgmdR_Q" frameborder="0" allowfullscreen></iframe>
 
 While it's only graphic prototype some people started to wonder if it's possible to implement this in real application in relatively simple way. Well, it is. And not only on devices with the latest Android OS -  Lillipop. The truth is that we can achieve most of showed graphics and animations effects for a couple years, since Android 4 was released.
