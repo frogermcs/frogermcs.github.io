@@ -268,11 +268,11 @@ In this step we want to animate two things: FAB and feed. While FAB animation is
 
 For this example the simples solution is to keep feed adapter empty and fill it in the moment when we want to animate items. And animate them directly in adapter, while items are created. How it looks like in real code? Take a look:
 
-** `startContentAnimation()` method: **
+* `startContentAnimation()` method:
 
 {% gist frogermcs/61b885eb2e44e0d2d61f FABAnimation %}
 
-** `FeedAdapter` with animated feed items **
+* `FeedAdapter` with animated feed items
 
 {% gist frogermcs/61b885eb2e44e0d2d61f FeedAdapter.java %}
 
