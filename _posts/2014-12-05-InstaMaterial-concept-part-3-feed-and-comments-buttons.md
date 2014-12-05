@@ -192,7 +192,7 @@ If we want to use it in code we have start this animation of View like below:
 And that's all for today! Here is the [last commit] with our `SendCommentButton` usage (it's only a boilerplate not worth mentioning). In the next post we'll finally move on to the next period in concept video.
 
 ##Source code
-Ful source code of described example is available on Github [repository].
+Full source code of described example is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*
 
