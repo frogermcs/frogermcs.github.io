@@ -288,7 +288,7 @@ Ful source code of described example is available on Github [repository].
 [INSTAGRAM with Material Design]:https://www.youtube.com/watch?v=ojwdmgmdR_Q
 [resources page]:http://www.google.com/design/spec/resources/sticker-sheets-icons.html
 [Butterknife]:http://jakewharton.github.io/butterknife/
-[Rebound]:facebook.github.io/rebound/
+[Rebound]:http://facebook.github.io/rebound/
 [Timber]:https://github.com/JakeWharton/timber
 [Hugo]:https://github.com/JakeWharton/hugo
 [complete bunch of images]:https://github.com/frogermcs/frogermcs.github.io/raw/master/files/2/resources.zip
