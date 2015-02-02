@@ -8,6 +8,10 @@ This post is a part of a series of posts showing Android implementation of [INST
 
 Also we'll create [DrawerLayoutInstaller] - simple tool for injecting DrawerLayout into Activity layout without messing with xml file.
 
+The most recent app version is available in Google Play Store
+
+[!["Android app on Google Play](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=io.github.froger.instamaterial)
+
 <!-- more -->
 
 Here is the final effect described in today's post:
