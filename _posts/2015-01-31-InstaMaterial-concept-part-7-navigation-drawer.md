@@ -99,7 +99,7 @@ And the last thing - implement `onGlobalMenuHeaderClick()` which should open `Pr
 
 In this case handler delays opening until DrawerLayout closes. Here is the final effect:
 
-![Navigation Drawer](/images/8/navigation_drawer.gif "Navigation Drawer")
+![Navigation Drawer](/images/8/navigation_drawer1.gif "Navigation Drawer")
 
 That's all for today. It was super fast and simple, as always it should be. Thanks for reading! 😄
 
