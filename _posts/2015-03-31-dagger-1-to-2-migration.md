@@ -135,6 +135,9 @@ And the migration is done. In case we missed something here is complete [pull re
 
 And that's all. Thank you for reading. I hope to deep Dagger 2 even more, so see you soon! 😃
 
+## Source code
+Full source code of described project is available on Github [repository].
+
 ###Author
 
 [Miroslaw Stanek]  
@@ -156,3 +159,4 @@ And that's all. Thank you for reading. I hope to deep Dagger 2 even more, so see
 [pull request]:https://github.com/antoniolg/DaggerExample/pull/5
 [Miroslaw Stanek]:http://about.me/froger_mcs
 [Azimo]:https://azimo.com
+[repository]:https://github.com/frogermcs/DaggerExample
