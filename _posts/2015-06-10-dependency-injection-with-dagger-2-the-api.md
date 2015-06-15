@@ -153,7 +153,7 @@ In short - each activity has its own dependencies graph. Each graph (`_Component
 ![App component](/images/14/app_component.png "App component")
 
 Speaking about `AppComponent` - just take a look closer to this interface. It contains two modules: `AppModule` and `GithubApiModule`.  
-`GithubApiModule` provides some dependencies like `OkHttpClient` or `RestAdapter` which are used only in other dependncies in this module. In Dagger 2 we can control which objects are visibile outside of component. In our case we don't want to expose mentioned objects. Instead we're just exposing `UserManager` and `RepositoriesManager`, because only those objects are used in our Activities. All is defined by public methods which return non-void type and has no parameters.
+`GithubApiModule` provides some dependencies like `OkHttpClient` or `RestAdapter` which are used only in other dependencies in this module. In Dagger 2 we can control which objects are visibile outside of component. In our case we don't want to expose mentioned objects. Instead we're just exposing `UserManager` and `RepositoriesManager`, because only those objects are used in our Activities. All is defined by public methods which return non-void type and has no parameters.
 
 Examples from documentation:
 
@@ -161,7 +161,7 @@ Examples from documentation:
 
 {% gist frogermcs/eb984b6fb1c1fc856db3 ProvisionMethods.java %}
 
-Moreover we also have to define where we want to inject dependencies (via member-injection). In our case `AppComponent` injects nowhere because it's used only as a dependency of our scoped Components. And each of them has `inject(_Activity activity)` method defined. Also here we have simple rule - injection is defined by method which has single parameter (defines instance in which we want to inject our dependncies), with no matter of name, but has to return void or passed parameter type.
+Moreover we also have to define where we want to inject dependencies (via member-injection). In our case `AppComponent` injects nowhere because it's used only as a dependency of our scoped Components. And each of them has `inject(_Activity activity)` method defined. Also here we have simple rule - injection is defined by method which has single parameter (defines instance in which we want to inject our dependencies), with no matter of name, but has to return void or passed parameter type.
 
 Examples from documentation:
 
