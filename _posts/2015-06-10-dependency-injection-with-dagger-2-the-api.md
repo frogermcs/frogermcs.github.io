@@ -202,6 +202,6 @@ Full source code of described project is available on Github [repository].
 [JSR-330]:https://jcp.org/en/jsr/detail?id=330
 [android-apt]:https://bitbucket.org/hvisser/android-apt
 [GithubClient]:https://github.com/frogermcs/GithubClient
-[repository]:https://github.com/frogermcs/GithubClient
+[repository]:https://github.com/frogermcs/GithubClient/tree/1bf53a2a36c8a85435e877847b987395e482ab4a
 [Miroslaw Stanek]:http://about.me/froger_mcs
 [Azimo]:https://azimo.com
