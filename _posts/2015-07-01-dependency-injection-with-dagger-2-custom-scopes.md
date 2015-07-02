@@ -6,11 +6,7 @@ tags: [android, dependency injection, dagger, dagger 2, scopes]
 
 This post is a part of series of posts showing Dependency Injection with Dagger 2 framework in Android. Today I'm going to spend some time with custom scopes - functionality which can be a bit problematic for Dependency Injection beginners.
 
-# Scopes - intro
-
-Java itself gives us possibility for scoping objects references - it's named **[Singleton]** and is a design pattern that restricts the instantiation of a class to one object. Scopes in Dagger 2 work very similar, they even use `@Singleton` annotation to define one of the scope (most often - the longest living one).
-
-## Scope - what does it give us?
+# Scope - what does it give us?
 
 Almost every project uses singletons - for API clients, database helpers, analytics managers etc. But since we don't care about instantiation (because of Dependency Injection framework), we shouldn't think about how to get these objects in our code. Instead of it `@Inject` annotation should provide us desirable instances.
 
