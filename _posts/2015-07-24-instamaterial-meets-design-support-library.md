@@ -1,6 +1,6 @@
 ---
 layout: post
-title: InstaMaterial meets design support library
+title: InstaMaterial meets Design Support Library
 tags: [android, material design, design support library, fab, snackbar, CoordinatorLayout, TabLayout, NavigationView]
 ---
 
