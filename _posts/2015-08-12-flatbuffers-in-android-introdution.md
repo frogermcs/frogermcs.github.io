@@ -1,6 +1,6 @@
 ---
 layout: post
-title: FlatBuffers in Android - introdution
+title: FlatBuffers in Android - introduction
 tags: [FlatBuffers, JSON]
 ---
 
