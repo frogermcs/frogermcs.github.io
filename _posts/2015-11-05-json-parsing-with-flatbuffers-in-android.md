@@ -166,7 +166,15 @@ Here is how our app currently looks like.
 
 ![FlatBuffs screenshot](/images/19/app.png "FlatBuffs screenshot")
 
-As you can see parse time isn't as good as while using plain FlatBuffers format. But it's still a bit faster (about 30-40%) than Java parsing with Gson. But it's also worth mentioning than after this process we'll have pure FlatBuffers format which can be cached and/or used in our app. 
+As you can see parse time isn't as good as while using plain FlatBuffers format. <s>But it's still a bit faster (about 30-40%) than Java parsing with Gson</s> (see update below). But it's also worth mentioning than after this process we'll have pure FlatBuffers format which can be cached and/or used in our app. 
+
+---
+
+# Update 11.11.2015
+
+Like it was mentioned in [Jesse Wilson's artile] (see discussion in comments there), my comparison speaking of 30-40% speed profit presented here can be unfair (what in my opinion still doesn't cross FlatBuffers usage). Please just keep in mind that the main point of this article was as simple as possible integration of native FlatBuffers library with Android app, not the full perfromance overview of this solution. Soon I'll try to shed some light on this.
+
+---
 
 On FlatBuffers docs site you can find more [benchmarks] data.
 
@@ -198,3 +206,4 @@ Full source code of described project is available on Github [repository]. To co
 [Miroslaw Stanek]:http://about.me/froger_mcs
 [Azimo Money Transfer]:https://azimo.com
 [repository]:https://github.com/frogermcs/FlatBuffs
+[Jesse Wilson's artile]:https://publicobject.com/2015/11/06/flatbuffers-arent-fast-theyre-lazy/
