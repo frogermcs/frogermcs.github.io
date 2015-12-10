@@ -1,6 +1,6 @@
 ---
 layout: post
-title: InstaMaterial - RecyclerView animations done right (thanks Android Dev Summit!)
+title: InstaMaterial - RecyclerView animations done right (thanks to Android Dev Summit!)
 tags: [RecyclerView, animations, InstaMaterial]
 ---
 
