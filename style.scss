@@ -264,6 +264,19 @@ nav {
     text-transform: uppercase;
     font-size: 15px;
   }
+  
+  img {
+    margin: auto;
+    text-align: center;
+    display: block;
+    border: 1px solid #eeeeee;
+    padding: 4pt;
+    }
+    
+  iframe {
+    margin: auto;
+    display: block;
+    }
 }
 
 .wrapper-footer {
