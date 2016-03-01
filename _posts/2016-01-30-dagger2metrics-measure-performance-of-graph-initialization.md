@@ -26,18 +26,11 @@ With Dagger2Metrics you will be able to see how much time was needed to initiali
 
 In your `build.gradle`:
 
-```gradle
 {% gist frogermcs/4ffe9a41a93b05f9e68f build.gradle %}
-
-apply plugin: 'com.android.application'
-apply plugin: 'com.frogermcs.dagger2metrics'
-```
 
 In your `Application` class:
 
-```java
 {% gist frogermcs/4ffe9a41a93b05f9e68f ExampleApplication.java %}
-```
 
 And that's all. In your app you will see notification which opens simple summary of all finished initializations.
 
@@ -58,11 +51,7 @@ Metric trees don't show dependencies which are already provided to Dagger's grap
 
 Dagger2Metrics has three default levels of warnings:
 
-```java
-Dagger2Metrics.WARNING_1_LIMIT_MILLIS // 30ms
-Dagger2Metrics.WARNING_2_LIMIT_MILLIS // 50ms
-Dagger2Metrics.WARNING_3_LIMIT_MILLIS // 100ms
-```
+{% gist frogermcs/4ffe9a41a93b05f9e68f customizing.java %}
 
 You can adjust them to your needs.
 
