@@ -48,7 +48,7 @@ Detailed description how it works under the hood can be found on wiki pages:
 
 There is no silver bullet for performance issues but here are a couple steps which can help you with potential bugs hunting.
 
-If measured time of object initialization or method execution looks suspicious you should definitely give a try to [TraceView](http://developer.android.com/tools/debugging/debugging-tracing.html). This tool logs method execution over time and shows execution data, per-thread timelines, and call stacks. Practical example of TraceView usage can be found in this blog post: [Measuring Dagger 2 graph creation performance](http://frogermcs.github.io/dagger-graph-creation-performance/]).
+If measured time of object initialization or method execution looks suspicious you should definitely give a try to [TraceView](http://developer.android.com/tools/debugging/debugging-tracing.html). This tool logs method execution over time and shows execution data, per-thread timelines, and call stacks. Practical example of TraceView usage can be found in this blog post: [Measuring Dagger 2 graph creation performance](http://frogermcs.github.io/dagger-graph-creation-performance/).
 
 ---
 
