@@ -16,6 +16,7 @@ Maybe it's not so important later, when our app has created serious bunch of sin
 The problem (and hints how to debug it) was described wider in one of my previous blog posts: [Dagger 2 - graph creation performance](http://frogermcs.github.io/dagger-graph-creation-performance/).
 
 In very short, let's imagine this case - your app has initial screen (SplashScreen) which does all needed things immediately after app launch:
+
 * Initializes all tracking libs (Google Analytics, Crashlytics) and sends first bunch of data to them
 * Creates whole stack for API and/or database communication
 * Delivers logic to our views (Presenters in MVP, ViewModels in MVVM etc.) 
