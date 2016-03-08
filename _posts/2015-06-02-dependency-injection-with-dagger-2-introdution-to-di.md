@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Dependency injection with Dagger 2 - Introdution to DI
+title: Dependency injection with Dagger 2 - Introduction to DI
 tags: [android, dependency injection, dagger, dagger 2]
 ---
 
