@@ -53,9 +53,11 @@ Producers documentation is pretty good so there is no sens to copy it here. Inst
 
 ## The price of producers
 Before we start implementation there are a couple things worth mentioning. Producers are a bit more complicated than Dagger 2 itself. It looks that mobile apps are not their main purpose of usage and it's important to know a couple things about them:
+
 * Producers use Guava library and are built on top of ListenableFuture class. It means that you have to deal with a 15k of additional methods in your app. What probably means that also you have to deal with **Proguard** and longer compile time.
 * As you will see later, creating `ListenableFutures` doesn't cost nothing. So if you count on that Producers will help you with optimizations from 10ms to 0ms you're probably wrong. But if the scale is bigger (100ms -> 10ms) you will find what you look for.
 * Right now there is no way to use `@Inject` annotation, so you have to deal with ProductionComponents by hand. It can make a mess with your well standarized, clean code.  
+
 [Here](http://stackoverflow.com/questions/35617378/injects-after-produces) you can find a good try with indirect solution for `@Inject` annotation.
 
 # Example app
