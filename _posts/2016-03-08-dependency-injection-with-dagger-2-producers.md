@@ -28,7 +28,7 @@ Example stack measured by [AndroidDevMetrics](https://github.com/frogermcs/andro
 
 User will see SplashActivity in about 600ms (+ additional system work) - sum of all initialization times. 
 
-#Producers - asynchronous dependency injection
+# Producers - asynchronous dependency injection
 
 Dagger 2 has extension named **Producers** which more or less solve those problems for us.  
 The idea is simple - whole initialization process can be executed on background thread(s) and delivered later to app's main thread.
@@ -131,7 +131,7 @@ Remember, if you feel that Producers are not a best fit for your app you can alw
 
 Thanks for reading!
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
 ### Author 
