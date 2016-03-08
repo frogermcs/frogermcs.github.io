@@ -90,6 +90,7 @@ Now let's move code from `GithubApiModule` to newly created `GithubApiProducerMo
 {% gist frogermcs/7721959e806e0755216b %}
 
 Looks simillar? That's rigth, we just updated:
+
 * `@Module` to `@ProducerModule` 
 * `@Provides @Singleton` to `@Produces`. 
 *Do you remember? In Producers we have single instances by default.*
