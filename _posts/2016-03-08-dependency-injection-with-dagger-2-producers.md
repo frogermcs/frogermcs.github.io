@@ -16,6 +16,7 @@ Maybe it's not so important later, when our app has created serious bunch of sin
 The problem (and hints how to debug it) was described wider in one of my previous blog posts: [Dagger 2 - graph creation performance](http://frogermcs.github.io/dagger-graph-creation-performance/).
 
 In very short, let's imagine this case - your app has initial screen (SplashScreen) which does all needed things immediately after app launch:
+
 * Initializes all tracking libs (Google Analytics, Crashlytics) and sends first bunch of data to them
 * Creates whole stack for API and/or database communication
 * Delivers logic to our views (Presenters in MVP, ViewModels in MVVM etc.) 
@@ -28,7 +29,7 @@ Example stack measured by [AndroidDevMetrics](https://github.com/frogermcs/andro
 
 User will see SplashActivity in about 600ms (+ additional system work) - sum of all initialization times. 
 
-#Producers - asynchronous dependency injection
+# Producers - asynchronous dependency injection
 
 Dagger 2 has extension named **Producers** which more or less solve those problems for us.  
 The idea is simple - whole initialization process can be executed on background thread(s) and delivered later to app's main thread.
@@ -52,9 +53,11 @@ Producers documentation is pretty good so there is no sens to copy it here. Inst
 
 ## The price of producers
 Before we start implementation there are a couple things worth mentioning. Producers are a bit more complicated than Dagger 2 itself. It looks that mobile apps are not their main purpose of usage and it's important to know a couple things about them:
+
 * Producers use Guava library and are built on top of ListenableFuture class. It means that you have to deal with a 15k of additional methods in your app. What probably means that also you have to deal with **Proguard** and longer compile time.
 * As you will see later, creating `ListenableFutures` doesn't cost nothing. So if you count on that Producers will help you with optimizations from 10ms to 0ms you're probably wrong. But if the scale is bigger (100ms -> 10ms) you will find what you look for.
 * Right now there is no way to use `@Inject` annotation, so you have to deal with ProductionComponents by hand. It can make a mess with your well standarized, clean code.  
+
 [Here](http://stackoverflow.com/questions/35617378/injects-after-produces) you can find a good try with indirect solution for `@Inject` annotation.
 
 # Example app
@@ -87,6 +90,7 @@ Now let's move code from `GithubApiModule` to newly created `GithubApiProducerMo
 {% gist frogermcs/7721959e806e0755216b %}
 
 Looks simillar? That's rigth, we just updated:
+
 * `@Module` to `@ProducerModule` 
 * `@Provides @Singleton` to `@Produces`. 
 *Do you remember? In Producers we have single instances by default.*
@@ -131,7 +135,7 @@ Remember, if you feel that Producers are not a best fit for your app you can alw
 
 Thanks for reading!
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
 ### Author 
