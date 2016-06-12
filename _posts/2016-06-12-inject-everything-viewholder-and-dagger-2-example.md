@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Inject everything - ViewHolder and Dagger 2 example
+title: Inject everything - ViewHolder and Dagger 2 (with Multibinding and AutoFactory example)
 tags: [android, dagger 2, multibinding, autofactory]
 ---
 
