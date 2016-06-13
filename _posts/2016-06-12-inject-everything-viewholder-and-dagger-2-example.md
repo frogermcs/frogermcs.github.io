@@ -4,14 +4,14 @@ title: Inject everything - ViewHolder and Dagger 2 (with Multibinding and AutoFa
 tags: [android, dagger 2, multibinding, autofactory]
 ---
 
-The main purpose of Dependency Injection pattern which is implemented by Dagger 2 is that DI separates the creation of a client's dependencies from the client's behavior. In practice it means that all calls of `new` operator, `newIstance()` and others shouldn't be invoked in places other than Dagger's Modules. 
+The main purpose of Dependency Injection pattern which is implemented by Dagger 2 is that DI separates the creation of a client's dependencies from the client's behavior. In practice it means that all calls of `new` operator, `newInstance()` and others shouldn't be invoked in places other than Dagger's Modules. 
 
 ### *The price of Dagger-everything*
 
-*The purpose of this post is to show what we can do, not what we should do. That's why it's important to know what we give in return > for separating creation from behavior.*
-*If you want to use Dagger 2 for almost everything in your project you will quickly see that big piece of 64k methods count limit is > used by generated code for injections.*
+*The purpose of this post is to show what we can do, not what we should do. That's why it's important to know what we give in return for separating creation from behavior.*
+*If you want to use Dagger 2 for almost everything in your project you will quickly see that big piece of 64k methods count limit is used by generated code for injections.*
 
-#Inject everything example
+# Inject everything example
 
 Probably the best known code example of Dagger 2 shows how to inject simple object (e.g. Presenter) to Activity and looks similar to this:
 
