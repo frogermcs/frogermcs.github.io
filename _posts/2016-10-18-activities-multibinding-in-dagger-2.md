@@ -1,110 +1,109 @@
 ---
 layout: post
-title: Building UserScope with Dagger2
-tags: [android, dagger 2, component, user scope, subcomponent]
+title: Activities Multibinding in Dagger 2
+tags: [android, dagger 2, multibinding, activity, testing, espresso, subcomponents]
 ---
 
-Custom scopes in Dagger 2 can give better control on dependencies which should live unusual amount of time (different than application and screen lifetime). But to implement it properly in Android app we need to keep in mind a couple things like: scope cannot live longer than application process, process can be killed by system and restored in the middle of user flow with new objects instances and more. Today we'll go through all of them and try to implement production ready UserScope.
+A couple months ago, during [MCE³](http://2016.mceconf.com/) conference, Gregory Kick in his [presentation](https://www.youtube.com/watch?v=iwjXqRlEevg) showed a new concept of providing Subcomponents (e.g. to Activities). New approach should give us a way to create ActivitySubcomponent without having AppComponent object reference (which used to be a factory for Activities Subcomponents).
+To make it real we had to wait for a new release of Dagger: [version 2.7](https://github.com/google/dagger/releases/tag/dagger-2.7).
 
--
+## The problem
 
-In one of my blog posts about Dagger 2 I [wrote](http://frogermcs.github.io/dependency-injection-with-dagger-2-custom-scopes/) about building **custom scopes** and **Subcomponents**. As an example I used `UserScope` which should live as long as user is logged in.  
-Example of scopes lifetime:
+Before Dagger 2.7, to create Subcomponent (e.g. `MainActivityComponent` which is Subcomponent of `AppComponent`) we had to declare its factory in parent Component:
 
-![Scopes lifecycle](/images/15/scopes-lifecycle.png "Scopes lifecycle")
+{% gist frogermcs/e33c129125c98931bfeea32c6a6efee7 AppComponent.java %}
 
-While it looks pretty simple, its implementation showed in that post was far away from code which can be production ready. That’s why I’d like to go through this subject again — but more in implementation context.
+Thanks to this declaration we Dagger knows that `MainActivityComponent` has access to dependencies from `AppComponent`.
 
-# Example app
+Having this, injection in `MainActivity` looks similar to:
 
-We’ll build 3-screens application which will be able to get user details from [Github API](https://developer.github.com/v3/) (let’s assume that this would be authentication event in production app).
+{% gist frogermcs/f1f303ca47cce6d5c6deece22d39ae49 ActivityComponent.java %}
 
-App will have 3 scopes:
+The problems with this code are:
 
-Application scope 
+- Activity depends on `AppComponent` (returned by `((MyApplication) getApplication()).getComponent())` — whenever we want to create Subcomponent, we need to have access to parent Component object.
 
-- (**@Singleton**) — dependencies which live as long as application.
+- `AppComponent` has to have declared factories for all Subcomponents (or their builders), e.g.: 
+`MainActivityComponent plus(MainActivityComponent.ModuleImpl module);`.
 
-- **@UserScope** — dependencies which live as long as user session is active (during single application launch).  
-**Important**: this scope won’t live longer than application itself. Each new app instance will create new @UserScope (even if user session was not finished between app launches).
+### Modules.subcomponents
+Starting from Dagger 2.7 we have new way to declare parents of Subcomponents. `@Module` annotation has optional [subcomponents](http://google.github.io/dagger/api/2.7/dagger/Module.html#subcomponents--) field which gets list of Subcomponents classes, which should be children of the Component in which this module is installed.
 
-- **@ActivityScope** — dependencies which live as long as Activity screen.
+**Example**:
 
-## How it works? 
+{% gist frogermcs/ebc20e703efef051cbb34cbca77a0d91 ActivityBindingModule.java %}
 
-When app gets data from Github API for given username, new screen is opened (UserDetails). Under the hood `LoginActivityPresenter` asks `UserManager` to start session (get data from Github API). When operation succeeds, user is saved to `UserDataStore` and `UserManager` creates `UserComponent`.
+`ActivityBindingModule` is installed in `AppComponent`. It means that both: `MainActivityComponent` and `SecondActivityComponent` are Subcomponents of `AppComponent`.  
+Subcomponents declared in this way don’t have to be declared explicitly in `AppComponent` (like was done in first code listing in this post). 
 
-{% gist frogermcs/95a06693ef1710ada28f28df9cd274cf UserManager.java %}
+## Activities Multibinding
 
-**UserManager** is a singleton object so it lives as long as Application and is responsible for `UserComponent` which reference is kept as long as user session exists. 
-When user decides to close session, component is removed so all objects which are `@UserScope` annotated should be ready for GC.
+Let’s see how we could use `Modules.subcomponents` to build Activities Multibinding and get rid of AppComponent object passed to Activity (it’s also explained at the end of this [presentation](https://www.youtube.com/watch?v=iwjXqRlEevg&feature=youtu.be&t=1693)). I’ll go only through the most important pieces in code. 
+Whole implementation is available on Github: [Dagger2Recipes-ActivitiesMultibinding](https://github.com/frogermcs/Dagger2Recipes-ActivitiesMultibinding).
 
-{% gist frogermcs/e593714bd539b5a1763b24dce8abe985 UserManager_closeSession.java %}
+Our app contains two simple screens: `MainActivity` and `SecondActivity`. We want to be able to provide Subcomponents to both of them without passing `AppComponent` object.
 
-## Components hierarchy
+Let’s start from building a base interface for all Activity Components builders:
 
-In our app all subcomponents use `AppComponent` as a root component. Subcomponents for screens which show user related content use `UserComponent` which keeps `@UserScope` annotated objects (one instance per user session).
+{% gist frogermcs/6aacee420032d4d4bd868eac9021a988 ActivityComponentBuilder.java %}
 
-![Scopes](/images/28/scopes.png "Scopes")
+Example Subcomponent: `MainActivityComponent` could look like this:
 
-Example component hierarchy for `UserDetailsActivityComponent` can look like this:
+{% gist frogermcs/17155715cb88f84064969e7752261f20 MainActivityComponent.java %}
 
-{% gist frogermcs/19a8c125b2b9fe54934a97035bf3f57c AppComponent.java %}
+Now we would like to have `Map` of Subcomponents builders to be able to get intended builder for each Activity class. Let’s use `Multibinding` feature for this:
 
-For `UserComponent` we use [Subcomponent builder](http://google.github.io/dagger/subcomponents.html#subcomponent-builders)	 pattern to make our code cleaner and have possibility to inject this builder to `UserModule` (`UserComponent.Builder` is used to create component `UserModule.startUserSession` method showed above).
+{% gist frogermcs/cd3117b2afce35d71026305e0e3bd2bb ActivityBindingModule.java %}
 
-## Restoring UserScope between app launches 
+`ActivityBindingModule` is installed in `AppComponent`. Like it was explained, thanks to this `MainActivityComponent` and `SecondActivityComponent` will be Subcomponent of `AppComponent`.
 
-As I mentioned earlier UserScope cannot live longer that application process. So if we assume that user session can be stored between app launches, we need to handle state restoring operation for our `UserScope`. And there are two scenarios which we need to keep in mind:
+{% gist frogermcs/05ad5b0e0c21322ae85d285bfc0bc091 ActivityBindingModule.java %}
 
-### User launches app from scratch
+Now we can inject Map of `Subcomponents` builder (e.g. to `MyApplication` class):
 
-This is the most common case which should be pretty straightforward to handle. User launches app from scratch (e.g. by clicking on app icon). `Application` object is created and then first `Activity` (**LAUNCHER**) is started. We need to provide simple logic checking if we have any saved user in our data store. If yes user is forwarded to proper screen (`UserDetailsActivity` in our case) where UserComponent is automatically created.
+{% gist frogermcs/8fbb97357819e6a276593bd30909fc48 MyApplication.java %}
 
-### Application process was killed by the system
+To have additional abstraction we created `HasActivitySubcomponentBuilders` interface (because `Map` of builders doesn’t have to be injected into `Application` class):
 
-But there is also a case which we very often forget about. Application process can be killed by the system (e.g. because of low memory). It means that all application data is destroyed (application, activities, static fields). Unfortunately this cannot be handled nicely — we don’t have any callbacks in Application lifecycle. To complicate it even more, Android saves activities stack. What means that when user decides to launch app which was killed somewhere in the middle of flow, system will try to bring user back to this screen. 
+{% gist frogermcs/4025e0bd9ff5110bcb8a1e244bba7bfb HasActivitySubcomponentBuilders.java %}
 
-For us it means that we need to be ready to restore `UserComponent` from any screen in which it’s used.
+And the final implementation of injection in Activity class:
 
-Let’s consider this example:
+{% gist frogermcs/3c926bba2353d8835dd64e7f2d421b4c MainActivity.java %}
 
-1. User minimised app on `UserDetailsActivity` screen
-2. Whole app is killed by the system (later I will show how to simulate it)
-3. User opens Task Switcher, clicks on our app screen.
-4. System creates new instance of `Application`. What means that also new `AppComponent` is created. And then instead of opening `LoginActivity` (which is our launcher activity) system opens `UserDetailsActivity` immediately.
+It’s pretty similar to our very first implementation, but as mentioned, the most important thing is that we don’t pass `ActivityComponent` object to our Activities anymore.
 
-For us it means that `UserComponent` has to be brought back (new instance has to be created). And this is our responsibility. Example solution to do this can look like this:
+##Example of use case — instrumentation tests mocking
 
-{% gist frogermcs/c22f41b80db816623fd0795d520cd683 BaseUserActivity.java %}
+Besides loose coupling and fixed circular dependency (Activity <-> Application) which not always is a big issue, especially in smaller projects/teams, let’s consider the real use case where our implementation could be helpful — mocking dependencies in instrumentation testing.
 
-Each Activity which use UserComponent has to extend our `BaseUserActivity` class (`setupActivityComponent()` method is called in `onCreate()` method in `BaseActivity`).
+Currently one of the most known way of mocking dependencies in Android Instrumentation Tests is by using [DaggerMock](https://medium.com/@fabioCollini/android-testing-using-dagger-2-mockito-and-a-custom-junit-rule-c8487ed01b56#.eh5zfyou5) (Github [project link](https://github.com/fabioCollini/DaggerMock)). While DaggerMock is powerful tool, it’s pretty hard to understand how it works under the hood. Among the others there is some reflection code which isn’t easy to trace.
 
-`UserManager` is injected from `AppComponent` which was created with Application. Session is started in this way:
+Building Subcomponent directly in Activity, without accessing AppComponent class gives us a way to test every single Activity decoupled from the rest of our app.  
+Sounds cool, now take a look at code.
 
-{% gist frogermcs/ae6fdc70a4192810aa36f0143df23b23 isUserSessionStartedOrStartSessionIfPossible.java %}
+Application class used in our instrumentation tests:
 
-### What if user doesn’t exist anymore?
+{% gist frogermcs/5232f6fb0775c929a4924cdb66c32d0c ApplicationMock.java %}
 
-So there is another case to handle — what if user was logged out (e.g. by `SyncAdapter`) and `UserComponent` cannot be created? That’s why we have those lines in our `BaseUserActivity`:
+Method `putActivityComponentBuilder()` gives us a way to replace implementation of ActivityComponentBuilder for given Activity class.
 
-{% gist frogermcs/a98f2da2bade8c74bef650ccd56e2f2b setupUserComponent.java %}
+Now take a look at our example Espresso Instrumentation Test:
 
-But if there is a chance that UserComponent cannot be created we have to remember that dependency injection won’t happen. That’s why we need to check it every time in `onCreate()` method to prevent from NullPointerExceptions on injected dependencies.
+{% gist frogermcs/1d8d067e0610d2bace0c73933d6e62ad MainActivityUITest.java %}
 
-{% gist frogermcs/b5a54d5089a9dcd5cbfaa9b7175b53cd UserDetailsActivity.java %}
+Step by step:
 
-## How to simulate application process kill by system
+- We provide Mock of `MainActivityComponent.Builder` and all dependencies which have to be mocked (just `Utils` in this case). Our mocked `Builder` returns custom implementation of `MainActivityComponent` which injects `MainActivityPresenter` (with mocked `Utils` object in it).
 
-1. Open app on screen which you would like to test
-2. Minimize app with system Home button.
-3. In Android Studio, Android Monitor select your application and click Terminate
-4. Now on your device open Task Switcher, find your app (you still should see preview of last visible screen).
-5. Your app was launched, new Application instance was created and Activity was restored.
+- Then our `MainActivityComponent.Builder` replaces the original Builder injected in `MyApplication` (line 28): `app.putActivityComponentBuilder(builder, MainActivity.class);`
+- Finally test — we mock `Utils.getHardcodedText()` method. Injection process happens when Activity is created (line 36): `activityRule.launchActivity(new Intent());` and at the and we’re just checking the results with Espresso. 
+
+And that’s all. As you can see almost everything happens in MainActivityUITest class and the code is pretty simple and understandable. 
 
 ## Source code
 
-Source code with working example showing how to create and use `UserComponent` is available on Github: [Dagger2 recipes — UserScope](https://github.com/frogermcs/Dagger2Recipes-UserScope).
+If you would like to test the implementation on your own, source code with working example showing how to create **Activities Multibinding** and mock dependencies in Instrumentation Tests is available on Github: [Dagger2Recipes-ActivitiesMultibinding](https://github.com/frogermcs/Dagger2Recipes-ActivitiesMultibinding).
 
 Thanks for reading!
 
