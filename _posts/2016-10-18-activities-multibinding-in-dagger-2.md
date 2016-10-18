@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Activities Multibinding in Dagger 2
+title: Activities Subcomponents Multibinding in Dagger 2
 tags: [android, dagger 2, multibinding, activity, testing, espresso, subcomponents]
 ---
 
