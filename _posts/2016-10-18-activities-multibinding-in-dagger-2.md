@@ -13,7 +13,7 @@ Before Dagger 2.7, to create Subcomponent (e.g. `MainActivityComponent` which is
 
 {% gist frogermcs/e33c129125c98931bfeea32c6a6efee7 AppComponent.java %}
 
-Thanks to this declaration we Dagger knows that `MainActivityComponent` has access to dependencies from `AppComponent`.
+Thanks to this declaration Dagger knows that `MainActivityComponent` has access to dependencies from `AppComponent`.
 
 Having this, injection in `MainActivity` looks similar to:
 
