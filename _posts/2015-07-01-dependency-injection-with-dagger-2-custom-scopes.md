@@ -19,7 +19,7 @@ In short - scopes give us "local singletons" which live as long as scope itself.
 
 For a better understanding of scopes in Dagger 2 we go straight to the practical example. We're going to implement something a bit more complex than Application/Activity scoping. For this we'll use our [GithubClient] example from [previous post]. Our app should have three scopes:
 
-- **@Sigleton** - application scope
+- **@Singleton** - application scope
 - **@UserScope** - scope for classes instances associated with picked user (in real app it could be logged-in user)
 - **@ActivityScope** - scope for instances which live as long as the activity (presenters in our case)
 
