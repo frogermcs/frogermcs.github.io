@@ -14,11 +14,11 @@ This is the final effect described in today's post (for both Android Lollipop an
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/NGyoszveMw4" frameborder="0" allowfullscreen></iframe>
 
-#Introdution
+# Introdution
 
 Honestly if you read carefully my previous posts and tried to implement described effects and views, today you won't learn anything new. Even if the final effect looks very complex almost every used technique or tool were described previously. Actually it's a good news - the number of different solutions in Android platform is finite. But the way in which you use them is limited only by your imagination. 😄
 
-#Preparation
+# Preparation
 
 As always let's start from adding new elements. We have to create new `UserProfileActivity` with Toolbar, RecyclerView and FloatingActionButton. Because of custom transition it should use the same style which we used in `CommentsActivity`. Also we have to add onClick listener to profile photo in `FeedAdapter`. And by the way I did small refactoring by creating BaseActivity. Here you have list of commits:
 
@@ -148,7 +148,7 @@ And the full commit with all required changes is [available here].
 
 That's all for today. We've just finished user profile with opening transition and all animations. thanks for reading! 😄
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*

@@ -14,7 +14,7 @@ As I said, I'm a big fan of DI and these drawbacks don't discourage me to use of
 
 Fortunately for us Dagger 2 came to *Not quite released, but stable, feature-completed state*. 
 
-#Dagger 2
+# Dagger 2
 I won't deep to much into technical details of the second major version this dependency injector. Instead, just check official [Dagger 2 website] and Devoxx talk about [The Future of Dependency Injection with Dagger 2] from Jake Wharton.
 
 What was a super-important for me, Dagger 2 almost automatically helps to solve a couple of problems which could take a lot of time with Dagger 1:
@@ -138,7 +138,7 @@ And that's all. Thank you for reading. I hope to deep Dagger 2 even more, so see
 ## Source code
 Full source code of described project is available on Github [repository].
 
-###Author
+### Author
 
 [Miroslaw Stanek]  
 *Head of Mobile Development* @ [Azimo]

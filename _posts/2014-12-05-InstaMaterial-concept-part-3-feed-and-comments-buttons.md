@@ -14,14 +14,14 @@ This is the final effect described in today's post (for both Android Lollipop an
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/6ill09PZOFg" frameborder="0" allowfullscreen></iframe>
 
-#Initial config
+# Initial config
 
 Nothing special is happening here. We only need to add two images for buttons in feed element (**like** and **comment** icons) and modify current mock images. It was done in [this commit]. After that, but still before we'll start to implement the new stuff, we have to work on...
 
-#Bugfixes and performance improvements
+# Bugfixes and performance improvements
 That's right, even in small projects like **InstaMaterial** you can always find something to fix or to improve. The same is here.
 
-##Toolbar theme
+## Toolbar theme
 First of all I missed the Toolbar styling. And that's why selector for menu button (left button on the Toolbar) has default, dark version (screen below). 
 
 ![Toolbar without styling](/images/4/toolbar_without_styling.png "Toolbar without styling")
@@ -40,12 +40,12 @@ After we'll apply new them menu selector should look like below (Lollipop only):
 
 ![Toolbar with styling](/images/4/toolbar_with_styling.png "Toolbar with styling")
 
-##RecyclerView elements preloading
+## RecyclerView elements preloading
 Another problem I found in project is feed scroll smoothness right after we launch the app. Almost every time we scroll to the second item, layout stutters for a while. Fortunately the reason of this problem is quite simple. As you probably know `RecyclerView` (and other adapter views like `ListView`, `GridView` etc.) uses recycle mechanism for reusing views (in short, system keeps in memory layout only for items which are visible on screen, and reuse them instead of creating new ones if you scroll it).
 
 The problem with our project is that we have only one feed element visible on the screen after we start the application. When we start scrolling, there are no views to reuse by `RecyclerView`, so in the moment when we reach the second element it has to be layed out. Unfortunately it takes some time, so our `RecyclerView` stutters for this moment. After that scroll becomes smooth because we had at least two elements in memory to reuse (which we don't need to create from scratch).
 
-###How to fix this? 
+### How to fix this? 
 
 In our example it's pretty straightforward thanks to `LinearLayoutManager` which we use. All we have to do is to override `getExtraLayoutSpace()` method. According to the [documetation], it should return amount of extra space (in **pixels**) that should be laid out by our LayoutManager:
 
@@ -61,12 +61,12 @@ and after it:
 
 ![RecyclerView stuttering fixed](/images/4/not_stuttered.gif "RecyclerView stuttering fixed")
 
-#Feed buttons
+# Feed buttons
 Let's start with feed buttons (**like** and **comments** for now). As we can see on the [concept video] they have fancy, circle-shaped selector. 
 
 ![Ripple effect](/images/4/ripple.gif "Ripple effect")
 
-##Ripples in Android Lollipop.
+## Ripples in Android Lollipop.
 Selectors used in feed buttons are nothing more than the **Ripple** effect introduced in Android Lollipop. There are a lot of tutorials and blog posts about ripples so I don't want to dive into this topic so deeply. here are a couple links:
 
 * [Ripples – Part 1] and [Ripples – Part 2] from **Styling Android blog**
@@ -82,14 +82,14 @@ And this is how we use it in `feed_item.xml` as a buttons background (line 17 an
 
 {% gist frogermcs/58a327605fc020354658 item_feed.xml %}
 
-##Don't use ripples in pre-21 Android version
+## Don't use ripples in pre-21 Android version
 I know that I promised to reproduce almost everything from the [concept video], but sometimes it is better to not do something rather than do something which doesn't meet the expectations. And so it is with the ripple effect in pre-21 Android versions.
 
 Of course right now we have some libraries which [mimic ripple effect] on older Androids, but none of them work as it should. They need extra code (i.e. additional layout wrapper), don't use native **Ripple** effect in Android Lollipop, have performance issues etc.
 
 But why is so hard to copy **Ripple** effect into pre-21 Android?
 
-###Ripples - under the hood
+### Ripples - under the hood
 Before Android Lollipop whole UI was managed in one "main" thread - UI Toolkit thread. Almost everyone knows [ANR] dialogs, the most of us faced with [NetworkOnMainThreadException] and knows the golden rule - move all long-running operations (networking, database access, image processing) to worker threads and handle only the results in UI thread. And everything would be ok except one rule from first sentence - whole UI have to be managed in main thread.
 
 With more complex and rich apps layouts, The UI itself becomes much more demanding and needs more time for measure, draw and layout operations. And here is the problem. If we are in the middle of animation and start another UI task (like inflating layout for newly opened Acitvity) the problem is that both of these tasks are performed in the same thread, so that animation is going to stop while the activity launches.
@@ -100,14 +100,14 @@ And actually this is how ripples work. They are executed in render thread, compl
 
 And that's why there is no (simple) way to achieve ripple effect in pre-21 Android system.
 
-##Pre-ripple selector in older Android 
+## Pre-ripple selector in older Android 
 Because wa cannot do ripples let's make something similar. We create circle selector with enter and exit fade duration. Maybe it's not as effecitve as ripples, but still looks ok. Here is an example:
 
 And the implementation of `res/drawable/btn_feed_action.xml`:
 
 {% gist frogermcs/58a327605fc020354658 btn_feed_action.xml %}
 
-#Send comment button
+# Send comment button
 Much more interesting for us is **SendCommentButton**. As you can notice on the [concept video] it has two states with simple translate animation between them and ripple onClick selector. 
 
 ![Send comment button](/images/4/send_comment.gif "Send comment button")
@@ -118,7 +118,7 @@ For this button we'll use a couple Android elements:
 * Custom view composed in .xml and inflated in code
 * `<merge>` tag for eliminate redundant view groups
 
-##Implementation
+## Implementation
 
 Ok, let's start from the animations. Actually we need four of them - 2 (enter and exit) for Send state and 2 (enter and exit, but reversed) for Done state:
 
@@ -161,7 +161,7 @@ The rest is quite simple. By invoking `setInAnimation()` and `setOutAnimation()`
 
 Great, we've just finished `SendCommentButton` implementation.
 
-##Design
+## Design
 The same as in feed action buttons, we have to prepare two different selectors for our `SendCommentButton`. For Lollipop version again we'll use ripple effect (this time bounded in button frame). For pre-21 Android we'll create standard version with pressed state and shadow emulated in the same way like FAB button described in the first post of this series.
 
 Here is the code for both .xml files:
@@ -172,7 +172,7 @@ Here is the code for both .xml files:
 `res/drawable/btn_send_comment.xml`:
 {% gist frogermcs/58a327605fc020354658 btn_send_comment.xml %}
 
-##Bonus - shake on error
+## Bonus - shake on error
 At the end we'll add one more functionality not showed in the [concept video] - shake animation in case comment text field will be empty. Here is the preview of this effect (it looks much better on the real device):
 
 ![Error shaking](/images/4/shake_error.gif "Error shaking")
@@ -191,7 +191,7 @@ If we want to use it in code we have start this animation of View like below:
 
 And that's all for today! Here is the [last commit] with our `SendCommentButton` usage (it's only a boilerplate not worth mentioning). In the next post we'll finally move on to the next period in concept video.
 
-##Source code
+## Source code
 Full source code of described example is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*
