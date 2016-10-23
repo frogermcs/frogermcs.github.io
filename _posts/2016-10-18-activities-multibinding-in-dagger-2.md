@@ -73,7 +73,7 @@ And the final implementation of injection in Activity class:
 
 It’s pretty similar to our very first implementation, but as mentioned, the most important thing is that we don’t pass `ActivityComponent` object to our Activities anymore.
 
-##Example of use case — instrumentation tests mocking
+## Example of use case — instrumentation tests mocking
 
 Besides loose coupling and fixed circular dependency (Activity <-> Application) which not always is a big issue, especially in smaller projects/teams, let’s consider the real use case where our implementation could be helpful — mocking dependencies in instrumentation testing.
 

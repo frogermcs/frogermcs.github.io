@@ -191,10 +191,10 @@ Also in this place we're providing AppComponent instance (because `SplashActivit
 
 The rest is up to you. Seriously - try to figure out how everything fits together. And in next post we'll try to take a look closely on Dagger 2 elements (how they work onder the hood).
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
-###Author
+### Author
 
 [Miroslaw Stanek]  
 *Head of Mobile Development* @ [Azimo]

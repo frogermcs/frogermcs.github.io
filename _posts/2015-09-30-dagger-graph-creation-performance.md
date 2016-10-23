@@ -132,10 +132,10 @@ Performance improvement process is very individual. But if you would like to sha
 
 Thanks for your reading!
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
-###Author
+### Author
 
 [Miroslaw Stanek]  
 *Head of Mobile Development* @ [Azimo Money Transfer]

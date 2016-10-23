@@ -113,11 +113,11 @@ Now take a look at the final effect:
 
 And this is all for today. We've just updated InstaMaterial with new views and effects like `Snackbar`, `FloatingActionButton`, `TabLayout`, `CoordinatorLayout`, `AppBarLayout` and `CollapsingToolbarLayout`. All of them were provided from [Android Design Support Library].
 
-##Source code
+## Source code
 
 Full source code of described project is available on Github [repository].
 
-###Author
+### Author
 
 [Miroslaw Stanek]  
 *Head of Mobile Development* @ [Azimo Money Transfer]

@@ -18,7 +18,7 @@ Here is the final effect described in today's post:
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/rRYN1le1-ZM" frameborder="0" allowfullscreen></iframe>
 
-#Introdution
+# Introdution
 
 Navigation Drawer is a very well known design pattern used in Android (and other mobile platforms). It's a panel that transitions in from the left edge of the screen and displays the app’s main navigation options. Sometimes it transitions in from the right edge, but until you have a good reason for this, it's rather bad design implementation, which you shouldn't copy.
 
@@ -26,9 +26,9 @@ Navigation Drawer pattern is also well documented (from both - design and progra
 
 In this post, instead of copying the documentation, we'll prepare **DrawerLayoutInstaller** - a stub of simple tool, which can help us to configure and inject `DrawerLayout` into every Activity whithout messing with each xml file. 
 
-#Navigation Drawer implementation
+# Navigation Drawer implementation
 
-##Preparation
+## Preparation
 
 Before we start, let's make some preparation by adding resources, and less meaning boilerplate.
 
@@ -51,7 +51,7 @@ Our menu is built on top of `ListView`, so we have to prepare layout for list it
 
 Here is the [full commit with all new resources].
 
-##GlobalMenuView
+## GlobalMenuView
 Now let's prepare layout for our global menu. Basically it's a simple `ListView` and we could build it in xml file. But in case when we want to inject this view into more Activities it's better to prepare it programmatically.
 
 Requirements for this view are simple - just display options list and user profile. So the implementation isn't too complicated:
@@ -62,14 +62,14 @@ As you probably noticed, user profile view is used as ListView's header. That's 
 
 `GlobalMenuAdapter` is even simpler, so I won't paste source code here. Instead, check this [commit with GlobalMenuView implementation].
 
-##Navigation Drawer
+## Navigation Drawer
 Now it's time to create Navigation Drawer implementation. First of all let's prepare xml root view for our `DrawerLayout`:
 
 {% gist frogermcs/44f57794ed7e86bf51c3 drawer_root.xml %}
 
 This generic layout can host custom root view (in **vContentFrame** element) and custom left drawer item (**vLeftDrawer** element).
 
-###DrawerLayoutInstaller
+### DrawerLayoutInstaller
 
 Now it's time to prepare our tool for injecting `DrawerLayout` into `Activity` layout tree. Probably **DrawerLayoutInstaller** will be developed in the future but now the requirements list is short and simple:
 
@@ -103,7 +103,7 @@ In this case handler delays opening until DrawerLayout closes. Here is the final
 
 That's all for today. It was super fast and simple, as always it should be. Thanks for reading! 😄
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*

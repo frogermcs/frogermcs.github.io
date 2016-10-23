@@ -103,7 +103,7 @@ And... That's all. 😃 As you can see, there is no magic here, but the final ef
 
 ## Source code
 
-Ful source code of described project is available on Github [repository].
+Full source code of described project is available on Github [repository].
 
 ### Author 
 

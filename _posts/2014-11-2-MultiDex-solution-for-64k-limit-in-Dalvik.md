@@ -182,7 +182,7 @@ With Android 5.0 Lollipop release, new support library appeared in Android SDK. 
 
 Where using MultiDex is pretty simple it's some important things which we should care about. 
 
-###Configuring project
+### Configuring project
 First of all we have to configure build instructions to split our project into multiple dex files. 
 
 In `app/build.gradle` file we have to add:
@@ -284,7 +284,7 @@ Now after we build and run our project everything works as it should.
 
 Here you have [3rd commit] with complete changes required for enabling MultiDex support.
 
-###Possible problems
+### Possible problems
 It's good to keep in mind these important things:
 
 * Additional .dex files are loaded in `Application.attachBaseContext(Context)` method (by `MultiDex.install(Context)` invokation). It means, that before this moment we can't use classes from them. So i.e. we cannot declare static fields with types attached out of main .dex file. Otherwise we'll get `java.lang.NoClassDefFoundError`. 
@@ -324,8 +324,8 @@ android/support/multidex/ZipUtil$CentralDirectory/class
 android/support/multidex/ZipUtil/class
 {% endhighlight %}
 
-##Source code
-Ful source code of described example is available on Github [repository].
+## Source code
+Full source code of described example is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*
 
