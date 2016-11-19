@@ -21,7 +21,7 @@ While the easiest way for implementing this (and original heart) animation would
 
 We'll create new View named `LikeButtonView` which will be built on top of FrameLayout which hosts three child views - CircleView showing circle below star icon, ImageView (with our star) and DotsView presenting dots floating around our button.
 
-##CircleView
+## CircleView
 
 ![Circle animation](/images/22/circle_anim.gif "Circle animation")
 
@@ -75,7 +75,7 @@ It means that dot color is animated between 3 values in ranges: [0, 0.5) and [0.
 
 The rest is pretty straightforward. Full source code of this class is available here: [DotsView]
 
-##LikeButtonView
+## LikeButtonView
 
 Our final views group is composed from `CircleView`, `ImageView` and `DotsView`. 
 
@@ -103,7 +103,7 @@ And... That's all. 😃 As you can see, there is no magic here, but the final ef
 
 ## Source code
 
-Ful source code of described project is available on Github [repository].
+Full source code of described project is available on Github [repository].
 
 ### Author 
 

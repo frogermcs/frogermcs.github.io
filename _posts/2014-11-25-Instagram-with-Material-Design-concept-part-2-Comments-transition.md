@@ -14,7 +14,7 @@ This is the final effect described in today's post (for both Android Lollipop an
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/b8OOaluag-w" frameborder="0" allowfullscreen></iframe>
 
-#Initial config
+# Initial config
 
 Let's start from adding boilerplate and less important stuff to our [previously created project]. We have to add:
 
@@ -125,8 +125,8 @@ The last thing that we have to implement is exit transition. Basing on concept v
 
 And that's all! We've just finished second step of InstaMaterial concept implementation. In next post I want to focus on details which we currently missed.
 
-##Source code
-Ful source code of described example is available on Github [repository].
+## Source code
+Full source code of described project is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*
 

@@ -14,7 +14,7 @@ This is the final effect described in today's post (for both Android Lollipop an
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/DNT7j0JjrtE" frameborder="0" allowfullscreen></iframe>
 
-#Warming up
+# Warming up
 
 Before we start working with context menu let's do some refactoring. 
 
@@ -32,9 +32,9 @@ It's worth mentioning that we can override properties in `<include />` tag (they
 
 Here is the [commit] with described refactoring.
 
-#Context menu
+# Context menu
 
-##Initial config
+## Initial config
 
 As usual let's make some preparation before we start coding. Here is the screenshot of desired effect:
 
@@ -42,7 +42,7 @@ As usual let's make some preparation before we start coding. Here is the screens
 
 First of all we have to add another button to our `item_feed.xml` layout and handle its `onClick()` event. Pretty straighforward, just copy and paste some previous code and add missing three-dots image (I used [this one] from official Material Design icons pack). Here is [full commit] with these changes.
 
-##Context menu layout
+## Context menu layout
 Let's start from our view's layout. One more time we'll use `<merge />` tag and construct our view from .xml and java code. 
 
 `res/layout/view_context_menu.xml` is simple:
@@ -134,7 +134,7 @@ As you can see it's a little tricky. In the same time when our menu is hiding we
 
 All we have to do right now is to make usage from our `FeedContextMenuManager`. Here is [the last commit] which shows how we did it in our project. That's all for today. 😄
 
-##Source code
+## Source code
 Full source code of described example is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*

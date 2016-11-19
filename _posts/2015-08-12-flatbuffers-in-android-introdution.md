@@ -9,7 +9,7 @@ Several days ago Facebook announced big performance improvement in data handling
 
 While the results are very promising, at the first glance the implementation isn't too obvious. Also facebook didn't say too much. That's why in this post I'd like to show how we can start our work with FlatBuffers. 
 
-#FlatBuffers
+# FlatBuffers
 In short, [FlatBuffers] is a cross-platform serialization library from Google, created specifically for game development and, as Facebook showed, to follow the [16ms rule] of smooth and responsive UI in Android. 
 
 *But hey, before you throw everything to migrate all your data to FlatBuffers, just make sure that you need this. Sometimes the impact on performance will be imperceptible and sometimes [data safety] will be more important than a tens of milliseconds difference in computation speed.*
@@ -21,7 +21,7 @@ What makes FlatBuffers so effective?
 
 For the real numbers just check again [facebook article] about migrating to FlatBuffers or [Google documentation] itself.
 
-#Implementation
+# Implementation
 
 This article will cover the simplest way of using FlatBuffers in Android app:
 
@@ -31,7 +31,7 @@ This article will cover the simplest way of using FlatBuffers in Android app:
 
 Probably in the future we'll prepare more complex solution.
 
-##FlatBuffers compiler
+## FlatBuffers compiler
 
 At the beginning we have to get **flatc** - FlatBuffers compiler. It can be built from source code hosted in Google's [flatbuffers repository]. Let's download/clone it. Whole build process is described on [FlatBuffers Building] documentation. If you are Mac user all you have to do is:
 
@@ -41,7 +41,7 @@ At the beginning we have to get **flatc** - FlatBuffers compiler. It can be buil
 
 Now we're able to [use schema compiler] which among the others can generate model classes for given schema (in Java, C#, Python, GO and C++) or convert JSON to FlatBuffer binary file.
 
-##Schema file
+## Schema file
 Now we have to prepare schema file which defines data structures we want to de-/serialize. This schema will be used with flatc to create Java models and to transform JSON into Flatbuffer binary file.
 
 Here is a part of our JSON file:
@@ -91,7 +91,7 @@ Here is [RawDataReader] util which helps us to read raw files in Android app.
 
 At the end put `Repo`, `ReposList` and `User` somewhere in project's source code.
 
-###FlatBuffers library
+### FlatBuffers library
 
 FlatBuffers provides java library to handle this data format directly in java. Here is [flatbuffers-java-1.2.0-SNAPSHOT.jar] file. If you want to generate it by hand you have to move back to downloaded FlatBuffers source code, go to `java/` directory and use Maven to generate this library:
 
@@ -110,7 +110,7 @@ Methods which should interest us the most:
 - `parseReposListJson(String reposStr)` - this method initializes Gson parser and convert json String to Java objects.
 - `loadFlatBuffer(byte[] bytes)` - this method converts bytes (our repos_flat.bin file) to Java objects.
 
-#Results
+# Results
 
 Now let's visualize differences between JSON and FlatBuffers loading time and consumed resources. Tests are made on Nexus 5 with Android M (beta) installed.
 
@@ -137,11 +137,11 @@ See the difference? Json loading freezes ProgressBar for a while, making our int
 
 Whant to measure more? Maybe it's a good time to give a try to [Android Studio 1.3] and new features like Allocation Tracker, Memory Viewer and Method Tracer.
 
-##Source code
+## Source code
 
 Full source code of described project is available on Github [repository]. You don't need to deal with FlatBuffers project - all you need is in `flatbuffers/` directory.
 
-###Author
+### Author
 
 [Miroslaw Stanek]  
 *Head of Mobile Development* @ [Azimo Money Transfer]

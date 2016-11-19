@@ -14,7 +14,7 @@ This is the final effect described in today's post (for both Android Lollipop an
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/KbJQ99EY5Yk" frameborder="0" allowfullscreen></iframe>
 
-#Like the feed item
+# Like the feed item
 
 Based on the [concept video], in our project we have two ways for liking feed item - like by heart button and by click on photo (actually I'm pretty sure that it should work after double click, just like in the real Instagram app, but let it be small exercise for you to implement double-click handler 😄).
 
@@ -26,7 +26,7 @@ As usual we have to update and add some resources used in our project. Today we 
 
 (starting from left: heart for likes counter, heart for liked button, heart for photo like animation).
 
-##Likes counter
+## Likes counter
 Let's start from the simplest effect. Like counter should be updated with in/out animation (old value goes up, while the new one comes from down). This is how it looks in practice:
 
 ![Likes counter](/images/6/likes_counter.gif "Likes counter")
@@ -47,7 +47,7 @@ And here is the visual preview from Android Studio for added view:
 
 `android:inAnimation` and `android:outAnimation` values are used for transition between previous and next child.
 
-###0dp for better performance
+### 0dp for better performance
 
 `LinearLayout` which wraps our likes counter uses `layout_weight="1"` (keep in mind that its *parent* is also the `LinearLayout`). When only one child of `LinearLayout` uses weight value it will absorb all the remaining space in parent (like in our case - look on the screenshot above). By using `layout_width="0dp"` (or height in vertical oriented LinearLayouts) we made a little perfromance improvement because our view doesn't have to measure its own size first.
 
@@ -62,12 +62,12 @@ This method is used for updating likes counter in two ways:
 
 Also, as you probably noticed, we are using *Quantity Strings* for proper handling words with quantity. Here you can find more details about using [Plurals] in Android.
 
-##Button like animation
+## Button like animation
 Now we'll focus on like button animation. Its behavior is a little bit fancier than on [concept video] and looks like on the screenshot below:
 
 ![Heart button](/images/6/heart_button.gif "Heart button")
 
-###Bundling multiple animations
+### Bundling multiple animations
 This effect is composed from multiple animations bundled in one set. That's why we cannot use `ViewPropertyAnimator` like we did before. Fortunately there is a simple way to play multiple animations which are depends on each other. Thanks to [AnimatorSet] we can bundle animations together and play them simultaneously, sequentially or in the mixed way. It's described wider there: [Choreographing Multiple Animations]
 
 Our like button effect is composed from 3 animations:
@@ -85,7 +85,7 @@ This time we used `ObjectAnimator` which can animate properties of target object
 
 Here is full commit which adds [like button animation].
 
-##Photo like animation
+## Photo like animation
 
 A little bit more complex is photo like animation. This time we animate values of two different objects (but still in one `AnimatorSet`):
 
@@ -104,7 +104,7 @@ Again we used `ObjectAnimator` and `AnimatorSet` (composition in lines 40-41).
 
 And that's all for today, thanks for reading! 😄
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*

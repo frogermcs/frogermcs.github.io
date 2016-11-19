@@ -16,7 +16,7 @@ Now let's back to this post - here is the final effect which we want to achieve 
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/0w3lGJIISTo" frameborder="0" allowfullscreen></iframe>
 
-#Introdution
+# Introdution
 
 Almost all solutions and animations described today were presented in previous posts. That's why I won't focus on detailed descriptions. But also there will be completely new element - camera. Those who have worked with it before know that this compoment is a little bit problematic for implementation. Why? In short - Android as an opened platform can handle very wide range of devices with completely different hardware (especially camera) specification. So if you are starting your work with picture capturing here is short list of things you should care:
 
@@ -33,7 +33,7 @@ According to some points described above, instead of writing my own implementati
 
 And the last thing before we start. Camera implemetation in InstaMaterial app is very limited. There is no logic for picture file handling and captured image displaying is very tricky. A lot of work should be done before this code will be ready for production (especially with bitmap cropping, picking right size for image etc.). But I trust that it could be good codebase for more complicated projects. 😄
 
-#Preparation
+# Preparation
 As always let's add some resources and less important boilerplate. Also some libraries have been updated. From now project has also new structure:
 
 ![Project structure](/images/9/project_structure.png "Project structure")
@@ -46,7 +46,7 @@ Here is list of commits:
 * [project structure update]
 * [new required resources]
 
-##CWAC-Camera configuration
+## CWAC-Camera configuration
 Camera library installation is very simple. All we have to do is add new maven repository in `<project>/build.gradle` file:
 
 {% highlight groovy %}
@@ -70,7 +70,7 @@ Finally we have to add new permissions in `AndroidManifest.xml` file:
 
 {% gist frogermcs/e2d00a89cef336779bf1 AndroidManifest.xml %}
 
-#Photo capture screen
+# Photo capture screen
 Now we can start implementation of capture screen. I considered two ways of implementation - two different activities for taking photo and editing it or one activity with these states. First option is more correct in my opinion (and probably I would use it in production code) but finally I took second one. Why? Because there is no simple way (but it isn't impossible!) to make transition from camera preview to taken photo preview without little layout hickup. By default camera saves taken picture on external storage and another activity should read it from that place. Unfortunately it generates a little delay so we would have to figure out some solution for passing bitmap between two activities (something more complex than sending bitmap via Intent's bundle or saving bitmap as a static field).
 
 Let's start from intro animation. For Activity transition we can use `RevealBackgroundView` introduced in [one of the previous posts]. One more time we have to pass starting location (taken from FAB button this time). The only difference is that we have to add new style which hides status bar in `TakePhotoActivity`:
@@ -83,7 +83,7 @@ and set it in `AndroidManifest` file:
 
 Commit with all described changes is [available here].
 
-#TakePhotoActivity layout
+# TakePhotoActivity layout
 Now let's prepare layout for capture screen. As I mentioned it should handle two states - capturing and configuring photo. That's why we should implement elements transitions. For this we'll use `ViewSwitcher` which can handle animation between his children (in our project we used `TextSwitcher` for likes counter animation which extends `ViewSwitcher` class).
 
 Before we start layout implementation we should prepare background for capture button:
@@ -112,7 +112,7 @@ Top and bottom panels slide from the right side of screen (thanks to `ViewSwitch
 
 Here is the [full source code] of .xml file.
 
-#Photo capturing view implementation
+# Photo capturing view implementation
 Finally we can implement the most important thing - photo capturing. In short here is the list of requirements:
 
 * Intro animation (sliding-in top and bottom panels right after background reveal animation)
@@ -123,7 +123,7 @@ First point is pretty straightforward. Just hide top and bottom panels on Acitiv
 
 {% gist frogermcs/e2d00a89cef336779bf1 TakePhotoActivity_intro.java %}
 
-##Photo capturing
+## Photo capturing
 Now we have to configure `CameraView`. According to [CWAC-Camera documentation] we have to integrate this view with Activity lifecycle (onResume() and onPause() mehtods):
 
 {% highlight java %}
@@ -163,7 +163,7 @@ Here is the full source code of [TakePhotoActivity].
 
 And that's all for today. Thank you all for the reading! 😄
 
-##Source code
+## Source code
 Full source code of described project is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*

@@ -14,7 +14,7 @@ While it's only graphic prototype some people started to wonder if it's possible
 
 Regarding to this I want to start new series of posts in which I'll show you how to reproduce *[INSTAGRAM with Material Design]* on real Android devices. Of course, for obvious reasons we'll create only front-end mockup for this application, but we'll try to reproduce as many details as it's possible.
 
-#Starting the project
+# Starting the project
 In this post I'd like to reproduce first 7 seconds of showed concept. I think it's enought for the first time, regarding to that we also have to prepare and configure our project.
 
 I'd like you to remember that all solutions which I'll show you are not the only possible ways - they are my favorite ones. Also I'm not a graphic designer so all images used in our project are taken from public resources (mainly from Material Design avaiable on it's [resources page]).
@@ -61,7 +61,7 @@ Basing on concept movie we'll define three base colors for our `AppTheme`:
 
 More details about what these colors are, you can find in [Material Theme Color Palette documentation].
 
-###Layout
+### Layout
 Our current project will be build from 3 main layout elements:
 
 * **Toolbar** - top bar with navigation icons and application logo
@@ -280,8 +280,8 @@ And... that's all! If we build and run our project we have the final version sho
 
 In case you missed something, here is [commit for our project with implemented animations].
 
-##Source code
-Ful source code of described example is available on Github [repository].
+## Source code
+Full source code of described example is available on Github [repository].
 
 *Author: [Miroslaw Stanek]*
 

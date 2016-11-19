@@ -73,13 +73,13 @@ Much simpler right? Of course DI frameworks don't take objects from nowhere - th
 Everything I described above was a light background to Dagger 2 - dependency injection framework which can be used in Android and Java development. In next post I'll try to go through whole Dagger 2 API. In case you don't want to wait just try my [Github client example] which is built on top of Dagger 2 and was used with my presentation. Just a hint - `@Modules` and `@Components` are the places to construct/provide objects. `@Inject` are the places where our objects are used.  
 More detailed description - soon.
 
-#References
+# References
 
 - [DAGGER 2 - A New Type of dependency injection ](https://www.youtube.com/watch?v=oK_XtfXPkqw) by Gregory Kick
 - [The Future of Dependency Injection with Dagger 2 ](https://www.parleys.com/tutorial/the-future-dependency-injection-dagger-2) by Jake Wharton
 - [Dagger 1 to 2 migration process ](http://frogermcs.github.io/dagger-1-to-2-migration/)
 
-###Author
+### Author
 
 [Miroslaw Stanek]  
 *Head of Mobile Development* @ [Azimo]

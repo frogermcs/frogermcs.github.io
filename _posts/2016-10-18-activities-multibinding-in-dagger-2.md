@@ -13,7 +13,7 @@ Before Dagger 2.7, to create Subcomponent (e.g. `MainActivityComponent` which is
 
 {% gist frogermcs/e33c129125c98931bfeea32c6a6efee7 AppComponent.java %}
 
-Thanks to this declaration we Dagger knows that `MainActivityComponent` has access to dependencies from `AppComponent`.
+Thanks to this declaration Dagger knows that `MainActivityComponent` has access to dependencies from `AppComponent`.
 
 Having this, injection in `MainActivity` looks similar to:
 
@@ -73,7 +73,7 @@ And the final implementation of injection in Activity class:
 
 It’s pretty similar to our very first implementation, but as mentioned, the most important thing is that we don’t pass `ActivityComponent` object to our Activities anymore.
 
-##Example of use case — instrumentation tests mocking
+## Example of use case — instrumentation tests mocking
 
 Besides loose coupling and fixed circular dependency (Activity <-> Application) which not always is a big issue, especially in smaller projects/teams, let’s consider the real use case where our implementation could be helpful — mocking dependencies in instrumentation testing.
 
